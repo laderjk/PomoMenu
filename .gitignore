@@ -54,3 +54,6 @@ Icon?
 
 # ---- Logs ----
 *.log
+
+# ---- Claude Code local state ----
+.claude/
