@@ -6,8 +6,19 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		2AAA00072FAA000000000007 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1404BA5C2F98858500EE75B6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1404BA632F98858500EE75B6;
+			remoteInfo = PomoMenu;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		1404BA642F98858500EE75B6 /* PomoMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PomoMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2AAA00012FAA000000000001 /* PomoMenuTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PomoMenuTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -16,10 +27,22 @@
 			path = PomoMenu;
 			sourceTree = "<group>";
 		};
+		2AAA00022FAA000000000002 /* PomoMenuTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = PomoMenuTests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		1404BA612F98858500EE75B6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2AAA00052FAA000000000005 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -33,6 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				1404BA662F98858500EE75B6 /* PomoMenu */,
+				2AAA00022FAA000000000002 /* PomoMenuTests */,
 				1404BA652F98858500EE75B6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				1404BA642F98858500EE75B6 /* PomoMenu.app */,
+				2AAA00012FAA000000000001 /* PomoMenuTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,6 +95,29 @@
 			productReference = 1404BA642F98858500EE75B6 /* PomoMenu.app */;
 			productType = "com.apple.product-type.application";
 		};
+		2AAA00032FAA000000000003 /* PomoMenuTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2AAA000B2FAA00000000000B /* Build configuration list for PBXNativeTarget "PomoMenuTests" */;
+			buildPhases = (
+				2AAA00042FAA000000000004 /* Sources */,
+				2AAA00052FAA000000000005 /* Frameworks */,
+				2AAA00062FAA000000000006 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2AAA00082FAA000000000008 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				2AAA00022FAA000000000002 /* PomoMenuTests */,
+			);
+			name = PomoMenuTests;
+			packageProductDependencies = (
+			);
+			productName = PomoMenuTests;
+			productReference = 2AAA00012FAA000000000001 /* PomoMenuTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -82,6 +130,10 @@
 				TargetAttributes = {
 					1404BA632F98858500EE75B6 = {
 						CreatedOnToolsVersion = 26.4.1;
+					};
+					2AAA00032FAA000000000003 = {
+						CreatedOnToolsVersion = 26.4.1;
+						TestTargetID = 1404BA632F98858500EE75B6;
 					};
 				};
 			};
@@ -100,12 +152,20 @@
 			projectRoot = "";
 			targets = (
 				1404BA632F98858500EE75B6 /* PomoMenu */,
+				2AAA00032FAA000000000003 /* PomoMenuTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1404BA622F98858500EE75B6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2AAA00062FAA000000000006 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -122,7 +182,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2AAA00042FAA000000000004 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2AAA00082FAA000000000008 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1404BA632F98858500EE75B6 /* PomoMenu */;
+			targetProxy = 2AAA00072FAA000000000007 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1404BA6D2F98858600EE75B6 /* Debug */ = {
@@ -251,10 +326,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				ENABLE_APP_SANDBOX = YES;
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -266,7 +343,6 @@
 				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
@@ -281,10 +357,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				ENABLE_APP_SANDBOX = YES;
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -296,10 +374,41 @@
 				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		2AAA00092FAA000000000009 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.lader.PomoMenuTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PomoMenu.app/Contents/MacOS/PomoMenu";
+			};
+			name = Debug;
+		};
+		2AAA000A2FAA00000000000A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.lader.PomoMenuTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PomoMenu.app/Contents/MacOS/PomoMenu";
 			};
 			name = Release;
 		};
@@ -320,6 +429,15 @@
 			buildConfigurations = (
 				1404BA702F98858600EE75B6 /* Debug */,
 				1404BA712F98858600EE75B6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2AAA000B2FAA00000000000B /* Build configuration list for PBXNativeTarget "PomoMenuTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2AAA00092FAA000000000009 /* Debug */,
+				2AAA000A2FAA00000000000A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

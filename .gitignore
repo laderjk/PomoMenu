@@ -1,0 +1,56 @@
+# ---- Build artifacts ----
+build/
+DerivedData/
+*.xcarchive
+*.dmg
+*.ipa
+*.app
+*.dSYM.zip
+*.dSYM
+
+# ---- Xcode user state ----
+xcuserdata/
+*.xcuserstate
+*.xcuserdatad/
+*.xcworkspace/xcuserdata/
+
+# ---- Swift / SwiftPM ----
+.build/
+.swiftpm/
+Package.resolved
+*.swiftdoc
+*.swiftmodule
+
+# ---- Playgrounds ----
+timeline.xctimeline
+playground.xcworkspace
+
+# ---- CocoaPods / Carthage / Accio (if ever added) ----
+Pods/
+Carthage/Build/
+Dependencies/
+
+# ---- fastlane (if ever added) ----
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# ---- macOS ----
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+
+# ---- Editor / OS ----
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ---- Logs ----
+*.log

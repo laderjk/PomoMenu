@@ -1,17 +1,12 @@
-//
-//  PomoMenuApp.swift
-//  PomoMenu
-//
-//  Created by Lader on 21/04/26.
-//
-
 import SwiftUI
 
 @main
 struct PomoMenuApp: App {
+    @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+
     var body: some Scene {
-        WindowGroup {
-            ContentView()
+        Settings {
+            SettingsView(engine: appDelegate.engine)
         }
     }
 }
