@@ -12,6 +12,9 @@ struct MenuBarContent: View {
         VStack(alignment: .leading, spacing: 12) {
             header
             progressSection
+            if showNextUpCard {
+                nextUpCard
+            }
             Divider()
             startRow
             taskField
@@ -23,6 +26,10 @@ struct MenuBarContent: View {
         }
         .padding(16)
         .frame(width: 320)
+    }
+
+    private var showNextUpCard: Bool {
+        engine.nextPlannedPhase != nil && !engine.isRunning
     }
 
     // MARK: - Sections
@@ -89,13 +96,52 @@ struct MenuBarContent: View {
         }
     }
 
-    // Focus/Deep toggle + Start button on the same row.
+    // Up-next card — appears when auto-flow is off and the engine has a
+    // planned next phase waiting for user confirmation.
+    @ViewBuilder
+    private var nextUpCard: some View {
+        if let next = engine.nextPlannedPhase {
+            HStack(alignment: .center, spacing: 8) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Up next")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    Text("\(engine.settings.emoji(for: next.type)) \(nextPhaseLabel(next))")
+                        .font(.body.weight(.semibold))
+                        .lineLimit(1)
+                }
+                Spacer()
+                Button {
+                    engine.startNextPlannedPhase()
+                } label: {
+                    Label("Start", systemImage: "play.fill")
+                        .frame(minWidth: 60)
+                }
+                .keyboardShortcut(.defaultAction)
+            }
+            .padding(10)
+            .background(
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .fill(Color.secondary.opacity(0.12))
+            )
+        }
+    }
+
+    private func nextPhaseLabel(_ phase: PlannedPhase) -> String {
+        let name = phase.isDeepFocusBreak ? "Deep Focus Break" : phase.type.displayName
+        let minutes = Int((phase.duration / 60).rounded())
+        return "\(name) · \(minutes) min"
+    }
+
+    // Session-type toggle (Focus / Deep / Short / Long) + Start button.
     @ViewBuilder
     private var startRow: some View {
         HStack(spacing: 8) {
             Picker("", selection: $selectedType) {
                 Text("Focus").tag(SessionType.regularFocus)
                 Text("Deep").tag(SessionType.deepFocus)
+                Text("Short").tag(SessionType.shortBreak)
+                Text("Long").tag(SessionType.longBreak)
             }
             .pickerStyle(.segmented)
             .labelsHidden()
@@ -107,18 +153,22 @@ struct MenuBarContent: View {
                 Label("Start", systemImage: "play.fill")
                     .frame(minWidth: 60)
             }
-            .keyboardShortcut(.defaultAction)
+            .keyboardShortcut(showNextUpCard ? .init("s", modifiers: .command) : .defaultAction)
             .disabled(engine.isRunning)
         }
     }
 
-    // Inline task field.
+    // Inline task field — only meaningful for focus sessions.
     @ViewBuilder
     private var taskField: some View {
-        TextField("Task (optional)", text: $taskInput)
+        TextField(taskFieldPlaceholder, text: $taskInput)
             .textFieldStyle(.roundedBorder)
             .onSubmit { if !engine.isRunning { startSelected() } }
-            .disabled(engine.isRunning)
+            .disabled(engine.isRunning || !selectedType.isFocus)
+    }
+
+    private var taskFieldPlaceholder: String {
+        selectedType.isFocus ? "Task (optional)" : "Task (breaks have no task)"
     }
 
     // Pause / Skip / Reset — visible once a session is running.
@@ -202,8 +252,12 @@ struct MenuBarContent: View {
         switch selectedType {
         case .regularFocus: engine.startRegularFocus(task: taskOrNil)
         case .deepFocus:    engine.startDeepFocus(task: taskOrNil)
-        default: break
+        case .shortBreak:   engine.startShortBreak()
+        case .longBreak:    engine.startLongBreak()
         }
+        // Breaks don't carry a task; clear the field so the user doesn't
+        // think a typed label is being associated with the break.
+        if !selectedType.isFocus { taskInput = "" }
     }
 
     private func formatMMSS(_ interval: TimeInterval) -> String {

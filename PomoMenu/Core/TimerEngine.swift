@@ -75,6 +75,33 @@ final class TimerEngine: @preconcurrency ObservableObject {
         startPhase(phase, task: task)
     }
 
+    func startShortBreak() {
+        let phase = PlannedPhase(
+            type: .shortBreak,
+            duration: TimeInterval(settings.shortBreakMinutes * 60),
+            isDeepFocusBreak: false,
+            countsTowardCycle: false
+        )
+        startPhase(phase, task: nil)
+    }
+
+    func startLongBreak() {
+        let phase = PlannedPhase(
+            type: .longBreak,
+            duration: TimeInterval(settings.longBreakMinutes * 60),
+            isDeepFocusBreak: false,
+            countsTowardCycle: false
+        )
+        startPhase(phase, task: nil)
+    }
+
+    /// Start whatever `nextPlannedPhase` points at (used when auto-flow is off
+    /// and the user clicks "Start" on the up-next card).
+    func startNextPlannedPhase() {
+        guard let phase = nextPlannedPhase else { return }
+        startPhase(phase, task: nil)
+    }
+
     func pause() {
         guard isRunning, !isPaused, let end = phaseEndDate else { return }
         pausedRemaining = max(0, end.timeIntervalSince(clock.now()))
@@ -105,12 +132,15 @@ final class TimerEngine: @preconcurrency ObservableObject {
         cycleState = .initial
         nextPlannedPhase = nil
         currentTask = nil
-        Task { [slack, settings] in
-            guard settings.slackEnabled else { return }
-            try? await slack.clearStatus()
-            try? await slack.endSnooze()
+        // Always try to clean up Slack on reset so a status/DND left behind
+        // by a previous session is guaranteed to clear — the `try?` swallows
+        // the no-token / transport errors when Slack isn't configured.
+        Task { [slack] in
+            _ = try? await slack.clearStatus()
+            _ = try? await slack.endSnooze()
         }
         dndActive = false
+        slackHasError = false
     }
 
     func shutdown() async {

@@ -98,15 +98,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             if engine.currentType != nil {
                 return engine.remainingSeconds
             }
-            if let settings = engine.settings as? UserDefaultsSettings {
-                return settings.duration(for: .regularFocus)
+            if let next = engine.nextPlannedPhase {
+                return next.duration
             }
             return TimeInterval(engine.settings.regularFocusMinutes * 60)
         }()
-        let total = max(0, Int(seconds.rounded(.up)))
-        let mm = total / 60
-        let ss = total % 60
-        return String(format: "%@ %02d:%02d", emoji, mm, ss)
+        return "\(emoji) \(engine.settings.menuBarTimeFormat.format(seconds: seconds))"
     }
 
     // MARK: - Interaction

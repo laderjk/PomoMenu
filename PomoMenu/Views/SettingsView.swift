@@ -13,6 +13,7 @@ struct SettingsView: View {
     @AppStorage(AppSettingsKey.countDeepFocusTowardCycle) private var countDeepFocusTowardCycle: Bool = false
     @AppStorage(AppSettingsKey.autoStartNextPhase) private var autoStartNextPhase: Bool = true
     @AppStorage(AppSettingsKey.playSoundOnPhaseEnd) private var playSoundOnPhaseEnd: Bool = true
+    @AppStorage(AppSettingsKey.menuBarTimeFormat) private var menuBarTimeFormatRaw: String = MenuBarTimeFormat.mmss.rawValue
 
     @AppStorage(AppSettingsKey.slackEnabled) private var slackEnabled: Bool = false
     @AppStorage(AppSettingsKey.slackSyncEveryPhase) private var slackSyncEveryPhase: Bool = true
@@ -73,6 +74,14 @@ struct SettingsView: View {
             Section("Flow") {
                 Toggle("Auto-start next phase", isOn: $autoStartNextPhase)
                 Toggle("Play sound on phase end", isOn: $playSoundOnPhaseEnd)
+            }
+            Section("Menu bar display") {
+                Picker("Time format", selection: $menuBarTimeFormatRaw) {
+                    ForEach(MenuBarTimeFormat.allCases) { fmt in
+                        Text(fmt.sampleLabel).tag(fmt.rawValue)
+                    }
+                }
+                .pickerStyle(.radioGroup)
             }
             Section("Emoji (menu bar)") {
                 LabeledContent("Regular focus") {

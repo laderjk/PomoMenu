@@ -23,6 +23,41 @@ enum AppSettingsKey {
     static let slackEmojiShortBreak = "slackEmojiShortBreak"
     static let slackEmojiLongBreak = "slackEmojiLongBreak"
     static let promptTaskNameOnStart = "promptTaskNameOnStart"
+    static let menuBarTimeFormat = "menuBarTimeFormat"
+}
+
+enum MenuBarTimeFormat: String, CaseIterable, Identifiable, Sendable {
+    case mmss   = "mmss"      // 25:00
+    case mLeft  = "m_left"    // 25m left
+    case minutes = "min"      // 25 min
+
+    var id: String { rawValue }
+
+    var sampleLabel: String {
+        switch self {
+        case .mmss:    return "25:00"
+        case .mLeft:   return "25m left"
+        case .minutes: return "25 min"
+        }
+    }
+
+    /// Format a time interval for display in the menu bar.
+    /// - `mmss` shows MM:SS.
+    /// - `mLeft`/`minutes` round UP to the nearest minute so the label doesn't
+    ///   immediately drop to 24 after starting a 25-minute session.
+    func format(seconds: TimeInterval) -> String {
+        let total = max(0, Int(seconds.rounded(.up)))
+        switch self {
+        case .mmss:
+            return String(format: "%02d:%02d", total / 60, total % 60)
+        case .mLeft:
+            let m = total == 0 ? 0 : (total + 59) / 60
+            return "\(m)m left"
+        case .minutes:
+            let m = total == 0 ? 0 : (total + 59) / 60
+            return "\(m) min"
+        }
+    }
 }
 
 protocol AppSettingsProvider: AnyObject, Sendable {
@@ -44,6 +79,7 @@ protocol AppSettingsProvider: AnyObject, Sendable {
     func slackEmoji(for type: SessionType) -> String
 
     var promptTaskNameOnStart: Bool { get }
+    var menuBarTimeFormat: MenuBarTimeFormat { get }
 }
 
 final class UserDefaultsSettings: AppSettingsProvider, @unchecked Sendable {
@@ -79,6 +115,7 @@ final class UserDefaultsSettings: AppSettingsProvider, @unchecked Sendable {
             AppSettingsKey.slackEmojiShortBreak: ":coffee:",
             AppSettingsKey.slackEmojiLongBreak: ":herb:",
             AppSettingsKey.promptTaskNameOnStart: true,
+            AppSettingsKey.menuBarTimeFormat: MenuBarTimeFormat.mmss.rawValue,
         ])
     }
 
@@ -95,6 +132,10 @@ final class UserDefaultsSettings: AppSettingsProvider, @unchecked Sendable {
     var slackSyncEveryPhase: Bool { defaults.bool(forKey: AppSettingsKey.slackSyncEveryPhase) }
     var slackDNDDeepFocusOnly: Bool { defaults.bool(forKey: AppSettingsKey.slackDNDDeepFocusOnly) }
     var promptTaskNameOnStart: Bool { defaults.bool(forKey: AppSettingsKey.promptTaskNameOnStart) }
+    var menuBarTimeFormat: MenuBarTimeFormat {
+        let raw = defaults.string(forKey: AppSettingsKey.menuBarTimeFormat) ?? ""
+        return MenuBarTimeFormat(rawValue: raw) ?? .mmss
+    }
 
     func emoji(for type: SessionType) -> String {
         let key: String = {

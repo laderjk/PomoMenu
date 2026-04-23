@@ -105,6 +105,7 @@ final class MutableSettings: AppSettingsProvider, @unchecked Sendable {
     var slackSyncEveryPhase: Bool = false
     var slackDNDDeepFocusOnly: Bool = true
     var promptTaskNameOnStart: Bool = false
+    var menuBarTimeFormat: MenuBarTimeFormat = .mmss
 
     func emoji(for type: SessionType) -> String { type.defaultEmoji }
     func slackEmoji(for type: SessionType) -> String { type.slackEmojiDefault }
