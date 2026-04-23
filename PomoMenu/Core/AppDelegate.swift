@@ -88,22 +88,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func currentTitle() -> String {
-        let emoji: String = {
-            if let type = engine.currentType {
-                return engine.settings.emoji(for: type)
-            }
-            return engine.settings.emoji(for: .regularFocus)
-        }()
-        let seconds: TimeInterval = {
-            if engine.currentType != nil {
-                return engine.remainingSeconds
-            }
-            if let next = engine.nextPlannedPhase {
-                return next.duration
-            }
-            return TimeInterval(engine.settings.regularFocusMinutes * 60)
-        }()
-        return "\(emoji) \(engine.settings.menuBarTimeFormat.format(seconds: seconds))"
+        guard let type = engine.currentType else {
+            return "🚀 Start"
+        }
+        let emoji = engine.settings.emoji(for: type)
+        return "\(emoji) \(engine.settings.menuBarTimeFormat.format(seconds: engine.remainingSeconds))"
     }
 
     // MARK: - Interaction
